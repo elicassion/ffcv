@@ -1,0 +1,282 @@
+
+
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>ffcv.writer module &mdash; FFCV  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.min.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/theme.min.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/style.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="ffcv.transforms module" href="transforms.html" />
+    <link rel="prev" title="API Reference" href="../api_reference.html" /> 
+
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <a class="site-nav-toggle hidden-lg-up"><i class="icon-menu"></i></a>
+            <a class="site-title" href="../index.html">
+                FFCV
+            </a>
+        </div>
+    </header>
+
+
+<div class="breadcrumbs-outer hidden-xs-down">
+    <div class="container">
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a></li>
+        
+          <li><a href="../api_reference.html">API Reference</a></li>
+        
+      <li>ffcv.writer module</li>
+    
+    
+      <li class="breadcrumbs-aside">
+        
+            
+            <a href="../_sources/api/writer.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+</div>
+    </div>
+</div>
+    <div class="main-outer">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-lg-3 site-nav">
+                    
+<div role="search">
+    <form class="search" action="../search.html" method="get">
+        <div class="icon-input">
+            <input type="text" name="q" placeholder="Search" />
+            <span class="icon-search"></span>
+        </div>
+        <input type="submit" value="Go" class="d-hidden" />
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+                    <div class="site-nav-tree">
+                        
+                            
+                            
+                                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../basics.html">Getting started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../writing_datasets.html">Writing a dataset to FFCV format</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../making_dataloaders.html">Making an FFCV dataloader</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../performance_guide.html">Performance Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../working_with_images.html">Working with Image Data in FFCV</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../parameter_tuning.html">Tuning Guide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../bottleneck_doctor.html">The Bottleneck Doctor</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../ffcv_examples/cifar10.html">Training CIFAR-10 in 36 seconds on a single A100</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ffcv_examples/linear_regression.html">Large-Scale Linear Regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ffcv_examples/custom_transforms.html">Fast custom image transforms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ffcv_examples/transform_with_inds.html">Custom transforms with indices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ffcv_examples/imagenet.html">ImageNet Fast Training</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../benchmarks.html">ImageNet Benchmarks</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../benchmarks.html#dataset-sizes">Dataset sizes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../benchmarks.html#data-loading">Data loading</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../benchmarks.html#end-to-end-training">End-to-end training</a></li>
+</ul>
+</li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../api_reference.html">API Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">ffcv.writer module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="transforms.html">ffcv.transforms module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="loader.html">ffcv.loader module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fields.html">ffcv.fields module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="decoders.html">ffcv.fields.decoders module</a></li>
+</ul>
+</li>
+</ul>
+
+                            
+                        
+                    </div>
+                </div>
+                <div class="col-12 col-lg-9">
+                    <div class="document">
+                        
+                            
+  <section id="module-ffcv.writer">
+<span id="ffcv-writer-module"></span><h1>ffcv.writer module<a class="headerlink" href="#module-ffcv.writer" title="Permalink to this headline">¶</a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="ffcv.writer.from_shard">
+<span class="sig-prename descclassname"><span class="pre">ffcv.writer.</span></span><span class="sig-name descname"><span class="pre">from_shard</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">shard</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pipeline</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ffcv/writer.html#from_shard"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ffcv.writer.from_shard" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ffcv.writer.count_samples_in_shard">
+<span class="sig-prename descclassname"><span class="pre">ffcv.writer.</span></span><span class="sig-name descname"><span class="pre">count_samples_in_shard</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">shard</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pipeline</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ffcv/writer.html#count_samples_in_shard"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ffcv.writer.count_samples_in_shard" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ffcv.writer.handle_sample">
+<span class="sig-prename descclassname"><span class="pre">ffcv.writer.</span></span><span class="sig-name descname"><span class="pre">handle_sample</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sample</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dest_ix</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field_names</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allocator</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fields</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ffcv/writer.html#handle_sample"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ffcv.writer.handle_sample" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ffcv.writer.worker_job_webdataset">
+<span class="sig-prename descclassname"><span class="pre">ffcv.writer.</span></span><span class="sig-name descname"><span class="pre">worker_job_webdataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_queue</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata_sm</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fields</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allocator</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">done_number</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allocations_queue</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pipeline</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ffcv/writer.html#worker_job_webdataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ffcv.writer.worker_job_webdataset" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ffcv.writer.worker_job_indexed_dataset">
+<span class="sig-prename descclassname"><span class="pre">ffcv.writer.</span></span><span class="sig-name descname"><span class="pre">worker_job_indexed_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_queue</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata_sm</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fields</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allocator</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">done_number</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allocations_queue</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataset</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ffcv/writer.html#worker_job_indexed_dataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ffcv.writer.worker_job_indexed_dataset" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="ffcv.writer.DatasetWriter">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ffcv.writer.</span></span><span class="sig-name descname"><span class="pre">DatasetWriter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fname</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fields</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Mapping</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="fields.html#ffcv.fields.Field" title="ffcv.fields.base.Field"><span class="pre">ffcv.fields.base.Field</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">page_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">8388608</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_workers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">-</span> <span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ffcv/writer.html#DatasetWriter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ffcv.writer.DatasetWriter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Writes given dataset into FFCV format (.beton).
+Supports indexable objects (e.g., PyTorch Datasets) and webdataset.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fname</strong> (<em>str</em>) – File name to store dataset in FFCV format (.beton)</p></li>
+<li><p><strong>fields</strong> (<em>Mapping</em><em>[</em><em>str</em><em>, </em><a class="reference internal" href="fields.html#ffcv.fields.Field" title="ffcv.fields.Field"><em>Field</em></a><em>]</em>) – Map from keys to Field’s (order matters!)</p></li>
+<li><p><strong>page_size</strong> (<em>int</em>) – Page size used internally</p></li>
+<li><p><strong>num_workers</strong> (<em>int</em>) – Number of processes to use</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="ffcv.writer.DatasetWriter.prepare">
+<span class="sig-name descname"><span class="pre">prepare</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ffcv/writer.html#DatasetWriter.prepare"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ffcv.writer.DatasetWriter.prepare" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ffcv.writer.DatasetWriter.from_indexed_dataset">
+<span class="sig-name descname"><span class="pre">from_indexed_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">indices</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chunksize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shuffle_indices</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ffcv/writer.html#DatasetWriter.from_indexed_dataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ffcv.writer.DatasetWriter.from_indexed_dataset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read dataset from an indexable dataset.
+See <a class="reference external" href="https://docs.ffcv.io/writing_datasets.html#indexable-dataset">https://docs.ffcv.io/writing_datasets.html#indexable-dataset</a> for sample usage.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset</strong> (<em>Indexable</em>) – An indexable object that implements <cite>__getitem__</cite> and <cite>__len__</cite>.</p></li>
+<li><p><strong>indices</strong> (<em>List</em><em>[</em><em>int</em><em>]</em>) – Use a subset of the dataset specified by indices.</p></li>
+<li><p><strong>chunksize</strong> (<em>int</em>) – Size of chunks processed by each worker during conversion.</p></li>
+<li><p><strong>shuffle_indices</strong> (<em>bool</em>) – Shuffle order of the dataset.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ffcv.writer.DatasetWriter.from_webdataset">
+<span class="sig-name descname"><span class="pre">from_webdataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">shards</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pipeline</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ffcv/writer.html#DatasetWriter.from_webdataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ffcv.writer.DatasetWriter.from_webdataset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read from webdataset-like format.
+See <a class="reference external" href="https://docs.ffcv.io/writing_datasets.html#webdataset">https://docs.ffcv.io/writing_datasets.html#webdataset</a> for sample usage.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>shards</strong> (<em>List</em><em>[</em><em>str</em><em>]</em>) – List of shards that comprise the dataset folder.</p></li>
+<li><p><strong>pipeline</strong> (<em>Callable</em>) – Called by each worker to decode. Similar to pipelines used to load webdataset.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ffcv.writer.DatasetWriter.finalize">
+<span class="sig-name descname"><span class="pre">finalize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">allocations</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ffcv/writer.html#DatasetWriter.finalize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ffcv.writer.DatasetWriter.finalize" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>    
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+    <script type="text/javascript" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+    <div class="footer" role="contentinfo">
+        <div class="container">
+            &#169; Copyright 2022, ffcv.
+        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0.
+        </div>
+    </div>  
+
+</body>
+</html>

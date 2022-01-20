@@ -1,0 +1,274 @@
+
+
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>ffcv.loader module &mdash; FFCV  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.min.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/theme.min.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/style.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="ffcv.fields module" href="fields.html" />
+    <link rel="prev" title="ffcv.transforms module" href="transforms.html" /> 
+
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <a class="site-nav-toggle hidden-lg-up"><i class="icon-menu"></i></a>
+            <a class="site-title" href="../index.html">
+                FFCV
+            </a>
+        </div>
+    </header>
+
+
+<div class="breadcrumbs-outer hidden-xs-down">
+    <div class="container">
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a></li>
+        
+          <li><a href="../api_reference.html">API Reference</a></li>
+        
+      <li>ffcv.loader module</li>
+    
+    
+      <li class="breadcrumbs-aside">
+        
+            
+            <a href="../_sources/api/loader.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+</div>
+    </div>
+</div>
+    <div class="main-outer">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-lg-3 site-nav">
+                    
+<div role="search">
+    <form class="search" action="../search.html" method="get">
+        <div class="icon-input">
+            <input type="text" name="q" placeholder="Search" />
+            <span class="icon-search"></span>
+        </div>
+        <input type="submit" value="Go" class="d-hidden" />
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+                    <div class="site-nav-tree">
+                        
+                            
+                            
+                                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../basics.html">Getting started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../writing_datasets.html">Writing a dataset to FFCV format</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../making_dataloaders.html">Making an FFCV dataloader</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../performance_guide.html">Performance Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../working_with_images.html">Working with Image Data in FFCV</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../parameter_tuning.html">Tuning Guide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../bottleneck_doctor.html">The Bottleneck Doctor</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../ffcv_examples/cifar10.html">Training CIFAR-10 in 36 seconds on a single A100</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ffcv_examples/linear_regression.html">Large-Scale Linear Regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ffcv_examples/custom_transforms.html">Fast custom image transforms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ffcv_examples/transform_with_inds.html">Custom transforms with indices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ffcv_examples/imagenet.html">ImageNet Fast Training</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../benchmarks.html">ImageNet Benchmarks</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../benchmarks.html#dataset-sizes">Dataset sizes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../benchmarks.html#data-loading">Data loading</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../benchmarks.html#end-to-end-training">End-to-end training</a></li>
+</ul>
+</li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../api_reference.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="writer.html">ffcv.writer module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="transforms.html">ffcv.transforms module</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">ffcv.loader module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fields.html">ffcv.fields module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="decoders.html">ffcv.fields.decoders module</a></li>
+</ul>
+</li>
+</ul>
+
+                            
+                        
+                    </div>
+                </div>
+                <div class="col-12 col-lg-9">
+                    <div class="document">
+                        
+                            
+  <section id="module-ffcv.loader">
+<span id="ffcv-loader-module"></span><h1>ffcv.loader module<a class="headerlink" href="#module-ffcv.loader" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="ffcv.loader.Loader">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ffcv.loader.</span></span><span class="sig-name descname"><span class="pre">Loader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fname:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size:</span> <span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_workers:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">os_cache:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order:</span> <span class="pre">typing.Union[ffcv.traversal_order.base.TraversalOrder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typing.Literal[&lt;OrderOption.SEQUENTIAL:</span> <span class="pre">1&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">&lt;OrderOption.RANDOM:</span> <span class="pre">2&gt;]]</span> <span class="pre">=</span> <span class="pre">OrderOption.SEQUENTIAL</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distributed:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">indices:</span> <span class="pre">typing.Optional[typing.Sequence[int]]</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pipelines:</span> <span class="pre">typing.Mapping[str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typing.Sequence[typing.Union[ffcv.pipeline.operation.Operation</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">torch.nn.Module]]]</span> <span class="pre">=</span> <span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">custom_fields:</span> <span class="pre">typing.Mapping[str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typing.Type[ffcv.fields.base.Field]]</span> <span class="pre">=</span> <span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">drop_last:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batches_ahead:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">recompile:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ffcv/loader/loader.html#Loader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ffcv.loader.Loader" title="Permalink to this definition">¶</a></dt>
+<dd><p>FFCV loader class that can be used as a drop-in replacement
+for standard (e.g. PyTorch) data loaders.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fname</strong> (<em>str</em>) – Full path to the location of the dataset (.beton file format).</p></li>
+<li><p><strong>batch_size</strong> (<em>int</em>) – Batch size.</p></li>
+<li><p><strong>num_workers</strong> (<em>int</em>) – Number of workers used for data loading. Consider using the actual number of cores instead of the number of threads if you only use JITed augmentations as they usually don’t benefit from hyper-threading.</p></li>
+<li><p><strong>os_cache</strong> (<em>bool</em>) – Leverages the operating for caching purposes. This is beneficial when there is enough memory to cache the dataset and/or when multiple processes on the same machine training using the same dataset. See <a class="reference external" href="https://docs.ffcv.io/performance_guide.html">https://docs.ffcv.io/performance_guide.html</a> for more information.</p></li>
+<li><p><strong>order</strong> (<a class="reference internal" href="#ffcv.loader.OrderOption" title="ffcv.loader.OrderOption"><em>OrderOption</em></a>) – <p>Traversal order, one of: SEQEUNTIAL, RANDOM, QUASI_RANDOM</p>
+<p>QUASI_RANDOM is a random order that tries to be as uniform as possible while minimizing the amount of data read from the disk. Note that it is mostly useful when <cite>os_cache=False</cite>. Currently unavailable in distributed mode.</p>
+</p></li>
+<li><p><strong>distributed</strong> (<em>bool</em>) – For distributed training (multiple GPUs). Emulates the behavior of DistributedSampler from PyTorch.</p></li>
+<li><p><strong>seed</strong> (<em>int</em>) – Random seed for batch ordering.</p></li>
+<li><p><strong>indices</strong> (<em>Sequence</em><em>[</em><em>int</em><em>]</em>) – Subset of dataset by filtering only some indices.</p></li>
+<li><p><strong>pipelines</strong> (<em>Mapping</em><em>[</em><em>str</em><em>, </em><em>Sequence</em><em>[</em><em>Union</em><em>[</em><em>Operation</em><em>, </em><em>torch.nn.Module</em><em>]</em><em>]</em>) – Dictionary defining for each field the sequence of Decoders and transforms to apply.
+Fileds with missing entries will use the default pipeline, which consists of the default decoder and <cite>ToTensor()</cite>,
+but a field can also be disabled by explicitly by passing <cite>None</cite> as its pipeline.</p></li>
+<li><p><strong>custom_fields</strong> (<em>Mapping</em><em>[</em><em>str</em><em>, </em><a class="reference internal" href="fields.html#ffcv.fields.Field" title="ffcv.fields.Field"><em>Field</em></a><em>]</em>) – Dictonary informing the loader of the types associated to fields that are using a custom type.</p></li>
+<li><p><strong>drop_last</strong> (<em>bool</em>) – Drop non-full batch in each iteration.</p></li>
+<li><p><strong>batches_ahead</strong> (<em>int</em>) – Number of batches prepared in advance; balances latency and memory.</p></li>
+<li><p><strong>recompile</strong> (<em>bool</em>) – Recompile every iteration. This is necessary if the implementation of some augmentations are expected to change during training.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="ffcv.loader.Loader.next_traversal_order">
+<span class="sig-name descname"><span class="pre">next_traversal_order</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ffcv/loader/loader.html#Loader.next_traversal_order"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ffcv.loader.Loader.next_traversal_order" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ffcv.loader.Loader.filter">
+<span class="sig-name descname"><span class="pre">filter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">field_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">condition</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#ffcv.loader.Loader" title="ffcv.loader.loader.Loader"><span class="pre">ffcv.loader.loader.Loader</span></a></span></span><a class="reference internal" href="../_modules/ffcv/loader/loader.html#Loader.filter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ffcv.loader.Loader.filter" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ffcv.loader.Loader.generate_function_call">
+<span class="sig-name descname"><span class="pre">generate_function_call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pipeline_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">op_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">needs_indices</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ffcv/loader/loader.html#Loader.generate_function_call"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ffcv.loader.Loader.generate_function_call" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ffcv.loader.Loader.generate_stage_code">
+<span class="sig-name descname"><span class="pre">generate_stage_code</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stage</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stage_ix</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">functions</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ffcv/loader/loader.html#Loader.generate_stage_code"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ffcv.loader.Loader.generate_stage_code" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ffcv.loader.Loader.generate_code">
+<span class="sig-name descname"><span class="pre">generate_code</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ffcv/loader/loader.html#Loader.generate_code"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ffcv.loader.Loader.generate_code" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="ffcv.loader.OrderOption">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ffcv.loader.</span></span><span class="sig-name descname"><span class="pre">OrderOption</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ffcv/loader/loader.html#OrderOption"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ffcv.loader.OrderOption" title="Permalink to this definition">¶</a></dt>
+<dd><p>An enumeration.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ffcv.loader.OrderOption.SEQUENTIAL">
+<span class="sig-name descname"><span class="pre">SEQUENTIAL</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#ffcv.loader.OrderOption.SEQUENTIAL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ffcv.loader.OrderOption.RANDOM">
+<span class="sig-name descname"><span class="pre">RANDOM</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#ffcv.loader.OrderOption.RANDOM" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ffcv.loader.OrderOption.QUASI_RANDOM">
+<span class="sig-name descname"><span class="pre">QUASI_RANDOM</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></em><a class="headerlink" href="#ffcv.loader.OrderOption.QUASI_RANDOM" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>    
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+    <script type="text/javascript" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+    <div class="footer" role="contentinfo">
+        <div class="container">
+            &#169; Copyright 2022, ffcv.
+        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0.
+        </div>
+    </div>  
+
+</body>
+</html>

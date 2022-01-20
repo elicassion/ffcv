@@ -1,0 +1,533 @@
+
+
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>ffcv.writer &mdash; FFCV  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../_static/css/theme.min.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/theme.min.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/style.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <a class="site-nav-toggle hidden-lg-up"><i class="icon-menu"></i></a>
+            <a class="site-title" href="../../index.html">
+                FFCV
+            </a>
+        </div>
+    </header>
+
+
+<div class="breadcrumbs-outer hidden-xs-down">
+    <div class="container">
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a></li>
+        
+          <li><a href="../index.html">Module code</a></li>
+        
+      <li>ffcv.writer</li>
+    
+    
+      <li class="breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+</div>
+    </div>
+</div>
+    <div class="main-outer">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-lg-3 site-nav">
+                    
+<div role="search">
+    <form class="search" action="../../search.html" method="get">
+        <div class="icon-input">
+            <input type="text" name="q" placeholder="Search" />
+            <span class="icon-search"></span>
+        </div>
+        <input type="submit" value="Go" class="d-hidden" />
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+                    <div class="site-nav-tree">
+                        
+                            
+                            
+                                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../basics.html">Getting started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../writing_datasets.html">Writing a dataset to FFCV format</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../making_dataloaders.html">Making an FFCV dataloader</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../performance_guide.html">Performance Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../working_with_images.html">Working with Image Data in FFCV</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../parameter_tuning.html">Tuning Guide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../bottleneck_doctor.html">The Bottleneck Doctor</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples.html">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../ffcv_examples/cifar10.html">Training CIFAR-10 in 36 seconds on a single A100</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ffcv_examples/linear_regression.html">Large-Scale Linear Regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ffcv_examples/custom_transforms.html">Fast custom image transforms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ffcv_examples/transform_with_inds.html">Custom transforms with indices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ffcv_examples/imagenet.html">ImageNet Fast Training</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../benchmarks.html">ImageNet Benchmarks</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../benchmarks.html#dataset-sizes">Dataset sizes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../benchmarks.html#data-loading">Data loading</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../benchmarks.html#end-to-end-training">End-to-end training</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api_reference.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../api/writer.html">ffcv.writer module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/transforms.html">ffcv.transforms module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/loader.html">ffcv.loader module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/fields.html">ffcv.fields module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/decoders.html">ffcv.fields.decoders module</a></li>
+</ul>
+</li>
+</ul>
+
+                            
+                        
+                    </div>
+                </div>
+                <div class="col-12 col-lg-9">
+                    <div class="document">
+                        
+                            
+  <h1>Source code for ffcv.writer</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Mapping</span>
+<span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">SEEK_END</span><span class="p">,</span> <span class="n">path</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">sleep</span>
+<span class="kn">import</span> <span class="nn">ctypes</span>
+<span class="kn">from</span> <span class="nn">multiprocessing</span> <span class="kn">import</span> <span class="p">(</span><span class="n">shared_memory</span><span class="p">,</span> <span class="n">cpu_count</span><span class="p">,</span> <span class="n">Queue</span><span class="p">,</span> <span class="n">Process</span><span class="p">,</span> <span class="n">Value</span><span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
+<span class="kn">from</span> <span class="nn">tqdm.contrib.concurrent</span> <span class="kn">import</span> <span class="n">thread_map</span>
+
+<span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">chunks</span><span class="p">,</span> <span class="n">is_power_of_2</span>
+<span class="kn">from</span> <span class="nn">.fields.base</span> <span class="kn">import</span> <span class="n">Field</span>
+<span class="kn">from</span> <span class="nn">.memory_allocator</span> <span class="kn">import</span> <span class="n">MemoryAllocator</span>
+<span class="kn">from</span> <span class="nn">.types</span> <span class="kn">import</span> <span class="p">(</span><span class="n">TYPE_ID_HANDLER</span><span class="p">,</span> <span class="n">get_metadata_type</span><span class="p">,</span> <span class="n">HeaderType</span><span class="p">,</span>
+                    <span class="n">FieldDescType</span><span class="p">,</span> <span class="n">CURRENT_VERSION</span><span class="p">,</span> <span class="n">ALLOC_TABLE_TYPE</span><span class="p">)</span>
+
+
+<span class="n">MIN_PAGE_SIZE</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">21</span>  <span class="c1"># 2MiB, which is the most common HugePage size</span>
+
+<div class="viewcode-block" id="from_shard"><a class="viewcode-back" href="../../api/writer.html#ffcv.writer.from_shard">[docs]</a><span class="k">def</span> <span class="nf">from_shard</span><span class="p">(</span><span class="n">shard</span><span class="p">,</span> <span class="n">pipeline</span><span class="p">):</span>
+    <span class="c1"># We import webdataset here so that it desn&#39;t crash if it&#39;s not required</span>
+    <span class="c1"># (Webdataset is an optional depdency)</span>
+    <span class="kn">from</span> <span class="nn">webdataset</span> <span class="kn">import</span> <span class="n">WebDataset</span>
+
+    <span class="n">dataset</span> <span class="o">=</span> <span class="n">WebDataset</span><span class="p">(</span><span class="n">shard</span><span class="p">)</span>
+    <span class="n">dataset</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">dataset</span></div>
+
+<div class="viewcode-block" id="count_samples_in_shard"><a class="viewcode-back" href="../../api/writer.html#ffcv.writer.count_samples_in_shard">[docs]</a><span class="k">def</span> <span class="nf">count_samples_in_shard</span><span class="p">(</span><span class="n">shard</span><span class="p">,</span> <span class="n">pipeline</span><span class="p">):</span>
+    <span class="c1">#</span>
+    <span class="c1"># We count the length of the dataset</span>
+    <span class="c1"># We are not using __len__ since it might not be implemented</span>
+    <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">from_shard</span><span class="p">(</span><span class="n">shard</span><span class="p">,</span> <span class="n">pipeline</span><span class="p">):</span>
+        <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="k">return</span> <span class="n">count</span></div>
+
+
+<div class="viewcode-block" id="handle_sample"><a class="viewcode-back" href="../../api/writer.html#ffcv.writer.handle_sample">[docs]</a><span class="k">def</span> <span class="nf">handle_sample</span><span class="p">(</span><span class="n">sample</span><span class="p">,</span> <span class="n">dest_ix</span><span class="p">,</span> <span class="n">field_names</span><span class="p">,</span> <span class="n">metadata</span><span class="p">,</span> <span class="n">allocator</span><span class="p">,</span> <span class="n">fields</span><span class="p">):</span>
+    <span class="c1"># We should only have to retry at least one</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">allocator</span><span class="o">.</span><span class="n">set_current_sample</span><span class="p">(</span><span class="n">dest_ix</span><span class="p">)</span>
+            <span class="c1"># We extract the sample in question from the dataset</span>
+            <span class="c1"># We write each field individually to the metadata region</span>
+            <span class="k">for</span> <span class="n">field_name</span><span class="p">,</span> <span class="n">field</span><span class="p">,</span> <span class="n">field_value</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">field_names</span><span class="p">,</span> <span class="n">fields</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span> <span class="n">sample</span><span class="p">):</span>
+                <span class="n">destination</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="n">field_name</span><span class="p">][</span><span class="n">dest_ix</span><span class="p">:</span> <span class="n">dest_ix</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+                <span class="n">field</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">destination</span><span class="p">,</span> <span class="n">field_value</span><span class="p">,</span> <span class="n">allocator</span><span class="o">.</span><span class="n">malloc</span><span class="p">)</span>
+            <span class="c1"># We managed to write all the data without reaching</span>
+            <span class="c1"># the end of the page so we stop retrying</span>
+            <span class="k">break</span>
+        <span class="c1"># If we couldn&#39;t fit this sample in the previous page we retry once from a fresh page</span>
+        <span class="k">except</span> <span class="ne">MemoryError</span><span class="p">:</span>
+            <span class="c1"># We raise the error if it happens on the second try</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="worker_job_webdataset"><a class="viewcode-back" href="../../api/writer.html#ffcv.writer.worker_job_webdataset">[docs]</a><span class="k">def</span> <span class="nf">worker_job_webdataset</span><span class="p">(</span><span class="n">input_queue</span><span class="p">,</span> <span class="n">metadata_sm</span><span class="p">,</span> <span class="n">metadata_type</span><span class="p">,</span> <span class="n">fields</span><span class="p">,</span>
+               <span class="n">allocator</span><span class="p">,</span> <span class="n">done_number</span><span class="p">,</span> <span class="n">allocations_queue</span><span class="p">,</span> <span class="n">pipeline</span><span class="p">):</span>
+
+    <span class="n">metadata</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">metadata_sm</span><span class="o">.</span><span class="n">buf</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">metadata_type</span><span class="p">)</span>
+    <span class="n">field_names</span> <span class="o">=</span> <span class="n">metadata_type</span><span class="o">.</span><span class="n">names</span>
+
+    <span class="c1"># This `with` block ensures that all the pages allocated have been written</span>
+    <span class="c1"># onto the file</span>
+    <span class="k">with</span> <span class="n">allocator</span><span class="p">:</span>
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">todo</span> <span class="o">=</span> <span class="n">input_queue</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+
+            <span class="k">if</span> <span class="n">todo</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="c1"># No more work left to do</span>
+                <span class="k">break</span>
+
+            <span class="n">shard</span><span class="p">,</span> <span class="n">offset</span> <span class="o">=</span> <span class="n">todo</span>
+
+            <span class="c1"># For each sample in the chunk</span>
+            <span class="n">done</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">sample</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">from_shard</span><span class="p">(</span><span class="n">shard</span><span class="p">,</span> <span class="n">pipeline</span><span class="p">)):</span>
+                <span class="n">done</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">dest_ix</span> <span class="o">=</span> <span class="n">offset</span> <span class="o">+</span> <span class="n">i</span>
+                <span class="n">handle_sample</span><span class="p">(</span><span class="n">sample</span><span class="p">,</span> <span class="n">dest_ix</span><span class="p">,</span> <span class="n">field_names</span><span class="p">,</span> <span class="n">metadata</span><span class="p">,</span> <span class="n">allocator</span><span class="p">,</span> <span class="n">fields</span><span class="p">)</span>
+
+            <span class="c1"># We warn the main thread of our progress</span>
+            <span class="k">with</span> <span class="n">done_number</span><span class="o">.</span><span class="n">get_lock</span><span class="p">():</span>
+                <span class="n">done_number</span><span class="o">.</span><span class="n">value</span> <span class="o">+=</span> <span class="n">done</span>
+
+    <span class="n">allocations_queue</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">allocator</span><span class="o">.</span><span class="n">allocations</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="worker_job_indexed_dataset"><a class="viewcode-back" href="../../api/writer.html#ffcv.writer.worker_job_indexed_dataset">[docs]</a><span class="k">def</span> <span class="nf">worker_job_indexed_dataset</span><span class="p">(</span><span class="n">input_queue</span><span class="p">,</span> <span class="n">metadata_sm</span><span class="p">,</span> <span class="n">metadata_type</span><span class="p">,</span> <span class="n">fields</span><span class="p">,</span>
+               <span class="n">allocator</span><span class="p">,</span> <span class="n">done_number</span><span class="p">,</span> <span class="n">allocations_queue</span><span class="p">,</span> <span class="n">dataset</span><span class="p">):</span>
+
+    <span class="n">metadata</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">metadata_sm</span><span class="o">.</span><span class="n">buf</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">metadata_type</span><span class="p">)</span>
+    <span class="n">field_names</span> <span class="o">=</span> <span class="n">metadata_type</span><span class="o">.</span><span class="n">names</span>
+
+    <span class="c1"># This `with` block ensures that all the pages allocated have been written</span>
+    <span class="c1"># onto the file</span>
+    <span class="k">with</span> <span class="n">allocator</span><span class="p">:</span>
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">chunk</span> <span class="o">=</span> <span class="n">input_queue</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+
+            <span class="k">if</span> <span class="n">chunk</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="c1"># No more work left to do</span>
+                <span class="k">break</span>
+
+            <span class="c1"># For each sample in the chunk</span>
+            <span class="k">for</span> <span class="n">dest_ix</span><span class="p">,</span> <span class="n">source_ix</span> <span class="ow">in</span> <span class="n">chunk</span><span class="p">:</span>
+                <span class="n">sample</span> <span class="o">=</span> <span class="n">dataset</span><span class="p">[</span><span class="n">source_ix</span><span class="p">]</span>
+                <span class="n">handle_sample</span><span class="p">(</span><span class="n">sample</span><span class="p">,</span> <span class="n">dest_ix</span><span class="p">,</span> <span class="n">field_names</span><span class="p">,</span> <span class="n">metadata</span><span class="p">,</span> <span class="n">allocator</span><span class="p">,</span> <span class="n">fields</span><span class="p">)</span>
+
+            <span class="c1"># We warn the main thread of our progress</span>
+            <span class="k">with</span> <span class="n">done_number</span><span class="o">.</span><span class="n">get_lock</span><span class="p">():</span>
+                <span class="n">done_number</span><span class="o">.</span><span class="n">value</span> <span class="o">+=</span> <span class="nb">len</span><span class="p">(</span><span class="n">chunk</span><span class="p">)</span>
+
+    <span class="n">allocations_queue</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">allocator</span><span class="o">.</span><span class="n">allocations</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="DatasetWriter"><a class="viewcode-back" href="../../api/writer.html#ffcv.writer.DatasetWriter">[docs]</a><span class="k">class</span> <span class="nc">DatasetWriter</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Writes given dataset into FFCV format (.beton).</span>
+<span class="sd">    Supports indexable objects (e.g., PyTorch Datasets) and webdataset.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    fname: str</span>
+<span class="sd">        File name to store dataset in FFCV format (.beton)</span>
+<span class="sd">    fields : Mapping[str, Field]</span>
+<span class="sd">        Map from keys to Field&#39;s (order matters!)</span>
+<span class="sd">    page_size : int</span>
+<span class="sd">        Page size used internally</span>
+<span class="sd">    num_workers : int</span>
+<span class="sd">        Number of processes to use</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fname</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">fields</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Field</span><span class="p">],</span>
+                 <span class="n">page_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">MIN_PAGE_SIZE</span><span class="p">,</span> <span class="n">num_workers</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fields</span> <span class="o">=</span> <span class="n">fields</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fname</span> <span class="o">=</span> <span class="n">fname</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">metadata_type</span> <span class="o">=</span> <span class="n">get_metadata_type</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_workers</span> <span class="o">=</span> <span class="n">num_workers</span>
+        <span class="c1"># We use all cores by default</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_workers</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">num_workers</span> <span class="o">=</span> <span class="n">cpu_count</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">is_power_of_2</span><span class="p">(</span><span class="n">page_size</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;page_size isnt a power of 2&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">page_size</span> <span class="o">&lt;</span> <span class="n">MIN_PAGE_SIZE</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;page_size can&#39;t be lower than</span><span class="si">{</span><span class="n">MIN_PAGE_SIZE</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">page_size</span> <span class="o">=</span> <span class="n">page_size</span>
+
+<div class="viewcode-block" id="DatasetWriter.prepare"><a class="viewcode-back" href="../../api/writer.html#ffcv.writer.DatasetWriter.prepare">[docs]</a>    <span class="k">def</span> <span class="nf">prepare</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fname</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fp</span><span class="p">:</span>
+            <span class="c1"># Prepare the header data</span>
+            <span class="n">header</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">HeaderType</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">header</span><span class="p">[</span><span class="s1">&#39;version&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">CURRENT_VERSION</span>
+            <span class="n">header</span><span class="p">[</span><span class="s1">&#39;num_samples&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_samples</span>
+            <span class="n">header</span><span class="p">[</span><span class="s1">&#39;num_fields&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">)</span>
+            <span class="n">header</span><span class="p">[</span><span class="s1">&#39;page_size&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">page_size</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">header</span> <span class="o">=</span> <span class="n">header</span>
+
+            <span class="c1"># We will write the header at the end because we need to know where</span>
+            <span class="c1"># The memory allocation table is in the file</span>
+            <span class="c1"># We still write it here to make space for it later</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">tobytes</span><span class="p">())</span>
+
+
+            <span class="c1"># Writes the information about the fields</span>
+            <span class="n">fields_descriptor</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">),</span>
+                                              <span class="n">dtype</span><span class="o">=</span><span class="n">FieldDescType</span><span class="p">)</span>
+            <span class="n">field_type_to_type_id</span> <span class="o">=</span> <span class="p">{</span><span class="n">v</span><span class="p">:</span> <span class="n">k</span> <span class="k">for</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="ow">in</span> <span class="n">TYPE_ID_HANDLER</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+
+            <span class="n">fieldname_max_len</span> <span class="o">=</span> <span class="n">fields_descriptor</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;name&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">field</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+                <span class="n">type_id</span> <span class="o">=</span> <span class="n">field_type_to_type_id</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">field</span><span class="p">),</span> <span class="mi">255</span><span class="p">)</span>
+                <span class="n">encoded_name</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;ascii&#39;</span><span class="p">)</span>
+                <span class="n">encoded_name</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">encoded_name</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;&lt;u1&#39;</span><span class="p">)</span>
+                <span class="n">actual_length</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">fieldname_max_len</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">encoded_name</span><span class="p">))</span>
+                <span class="n">fields_descriptor</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;type_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">type_id</span>
+                <span class="n">fields_descriptor</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;name&#39;</span><span class="p">][:</span><span class="n">actual_length</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="n">encoded_name</span><span class="p">[:</span><span class="n">actual_length</span><span class="p">])</span>
+                <span class="n">fields_descriptor</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;arguments&#39;</span><span class="p">][:]</span> <span class="o">=</span> <span class="n">field</span><span class="o">.</span><span class="n">to_binary</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">fields_descriptor</span><span class="o">.</span><span class="n">tobytes</span><span class="p">())</span>
+
+        <span class="n">total_metadata_size</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_samples</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">metadata_type</span><span class="o">.</span><span class="n">itemsize</span>
+
+        <span class="c1"># Shared memory for all the writers to fill the information</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">metadata_sm</span> <span class="o">=</span> <span class="mi">3</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">metadata_start</span> <span class="o">=</span> <span class="p">(</span><span class="n">HeaderType</span><span class="o">.</span><span class="n">itemsize</span> <span class="o">+</span> <span class="n">fields_descriptor</span><span class="o">.</span><span class="n">nbytes</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">metadata_sm</span> <span class="o">=</span> <span class="n">shared_memory</span><span class="o">.</span><span class="n">SharedMemory</span><span class="p">(</span><span class="n">create</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                                      <span class="n">size</span><span class="o">=</span><span class="n">total_metadata_size</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">data_region_start</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">metadata_start</span> <span class="o">+</span> <span class="n">total_metadata_size</span></div>
+
+
+    <span class="k">def</span> <span class="nf">_write_common</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_samples</span><span class="p">,</span> <span class="n">queue_content</span><span class="p">,</span> <span class="n">work_fn</span><span class="p">,</span> <span class="n">extra_worker_args</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_samples</span> <span class="o">=</span> <span class="n">num_samples</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">prepare</span><span class="p">()</span>
+        <span class="n">allocation_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1"># Makes a memmap to the metadata for the samples</span>
+
+        <span class="c1"># We publish all the work that has to be done into a queue</span>
+        <span class="n">workqueue</span><span class="p">:</span> <span class="n">Queue</span> <span class="o">=</span> <span class="n">Queue</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">todo</span> <span class="ow">in</span> <span class="n">queue_content</span><span class="p">:</span>
+            <span class="n">workqueue</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">todo</span><span class="p">)</span>
+
+        <span class="c1"># This will contain all the memory allocations each worker</span>
+        <span class="c1"># produced. This will go at the end of the file</span>
+        <span class="n">allocations_queue</span><span class="p">:</span> <span class="n">Queue</span> <span class="o">=</span> <span class="n">Queue</span><span class="p">()</span>
+
+        <span class="c1"># We add a token for each worker to warn them that there</span>
+        <span class="c1"># is no more work to be done</span>
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_workers</span><span class="p">):</span>
+            <span class="n">workqueue</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+
+        <span class="c1"># Define counters we need to orchestrate the workers</span>
+        <span class="n">done_number</span> <span class="o">=</span> <span class="n">Value</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_uint64</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">allocator</span> <span class="o">=</span> <span class="n">MemoryAllocator</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fname</span><span class="p">,</span>
+                                    <span class="bp">self</span><span class="o">.</span><span class="n">data_region_start</span><span class="p">,</span>
+                                    <span class="bp">self</span><span class="o">.</span><span class="n">page_size</span><span class="p">)</span>
+
+        <span class="c1"># Arguments that have to be passed to the workers</span>
+        <span class="n">worker_args</span> <span class="o">=</span> <span class="p">(</span><span class="n">workqueue</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">metadata_sm</span><span class="p">,</span>
+                       <span class="bp">self</span><span class="o">.</span><span class="n">metadata_type</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">,</span>
+                       <span class="n">allocator</span><span class="p">,</span> <span class="n">done_number</span><span class="p">,</span>
+                       <span class="n">allocations_queue</span><span class="p">,</span> <span class="o">*</span><span class="n">extra_worker_args</span><span class="p">)</span>
+
+        <span class="c1"># Create the workers</span>
+        <span class="n">processes</span> <span class="o">=</span> <span class="p">[</span><span class="n">Process</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">work_fn</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="n">worker_args</span><span class="p">)</span>
+                     <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_workers</span><span class="p">)]</span>
+        <span class="c1"># start the workers</span>
+        <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">processes</span><span class="p">:</span> <span class="n">p</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+        <span class="c1"># Wait for all the workers to be done</span>
+
+        <span class="c1"># Display progress</span>
+        <span class="n">progress</span> <span class="o">=</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">total</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">num_samples</span><span class="p">)</span>
+        <span class="n">previous</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">while</span> <span class="n">previous</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_samples</span><span class="p">:</span>
+            <span class="n">val</span> <span class="o">=</span> <span class="n">done_number</span><span class="o">.</span><span class="n">value</span>
+            <span class="n">diff</span> <span class="o">=</span> <span class="n">val</span> <span class="o">-</span> <span class="n">previous</span>
+            <span class="k">if</span> <span class="n">diff</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">progress</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">diff</span><span class="p">)</span>
+            <span class="n">previous</span> <span class="o">=</span> <span class="n">val</span>
+            <span class="n">sleep</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>
+        <span class="n">progress</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+        <span class="c1"># Wait for all the workers to be done and get their allocations</span>
+        <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">processes</span><span class="p">:</span>
+            <span class="n">content</span> <span class="o">=</span> <span class="n">allocations_queue</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+            <span class="n">allocation_list</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">finalize</span><span class="p">(</span><span class="n">allocation_list</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">metadata_sm</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">metadata_sm</span><span class="o">.</span><span class="n">unlink</span><span class="p">()</span>
+
+
+<div class="viewcode-block" id="DatasetWriter.from_indexed_dataset"><a class="viewcode-back" href="../../api/writer.html#ffcv.writer.DatasetWriter.from_indexed_dataset">[docs]</a>    <span class="k">def</span> <span class="nf">from_indexed_dataset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataset</span><span class="p">,</span>
+                              <span class="n">indices</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">chunksize</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+                              <span class="n">shuffle_indices</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Read dataset from an indexable dataset.</span>
+<span class="sd">        See https://docs.ffcv.io/writing_datasets.html#indexable-dataset for sample usage.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        dataset: Indexable</span>
+<span class="sd">            An indexable object that implements `__getitem__` and `__len__`.</span>
+<span class="sd">        indices : List[int]</span>
+<span class="sd">            Use a subset of the dataset specified by indices.</span>
+<span class="sd">        chunksize : int</span>
+<span class="sd">            Size of chunks processed by each worker during conversion.</span>
+<span class="sd">        shuffle_indices : bool</span>
+<span class="sd">            Shuffle order of the dataset.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># If the user didn&#39;t specify an order we just add samples</span>
+        <span class="c1"># sequentially</span>
+        <span class="k">if</span> <span class="n">indices</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">dataset</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="n">shuffle_indices</span><span class="p">:</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">indices</span><span class="p">)</span>
+
+        <span class="c1"># We add indices to the indices so that workers know where</span>
+        <span class="c1"># to write in the metadata array</span>
+        <span class="n">indices</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">enumerate</span><span class="p">(</span><span class="n">indices</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_write_common</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">indices</span><span class="p">),</span> <span class="n">chunks</span><span class="p">(</span><span class="n">indices</span><span class="p">,</span> <span class="n">chunksize</span><span class="p">),</span>
+                           <span class="n">worker_job_indexed_dataset</span><span class="p">,</span> <span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="DatasetWriter.from_webdataset"><a class="viewcode-back" href="../../api/writer.html#ffcv.writer.DatasetWriter.from_webdataset">[docs]</a>    <span class="k">def</span> <span class="nf">from_webdataset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">shards</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">pipeline</span><span class="p">:</span> <span class="n">Callable</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Read from webdataset-like format.</span>
+<span class="sd">        See https://docs.ffcv.io/writing_datasets.html#webdataset for sample usage.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        shards: List[str]</span>
+<span class="sd">            List of shards that comprise the dataset folder.</span>
+<span class="sd">        pipeline: Callable</span>
+<span class="sd">            Called by each worker to decode. Similar to pipelines used to load webdataset.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">counter</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">count_samples_in_shard</span><span class="p">,</span> <span class="n">pipeline</span><span class="o">=</span><span class="n">pipeline</span><span class="p">)</span>
+        <span class="n">lengths</span> <span class="o">=</span> <span class="n">thread_map</span><span class="p">(</span><span class="n">counter</span><span class="p">,</span> <span class="n">shards</span><span class="p">,</span> <span class="n">max_workers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">num_workers</span><span class="p">)</span>
+        <span class="n">total_len</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">lengths</span><span class="p">)</span>
+
+        <span class="n">offsets</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">([</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">lengths</span><span class="p">)[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="n">todos</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="n">shards</span><span class="p">,</span> <span class="n">offsets</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_write_common</span><span class="p">(</span><span class="n">total_len</span><span class="p">,</span> <span class="n">todos</span><span class="p">,</span> <span class="n">worker_job_webdataset</span><span class="p">,</span> <span class="p">(</span><span class="n">pipeline</span><span class="p">,</span> <span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="DatasetWriter.finalize"><a class="viewcode-back" href="../../api/writer.html#ffcv.writer.DatasetWriter.finalize">[docs]</a>    <span class="k">def</span> <span class="nf">finalize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">allocations</span><span class="p">)</span> <span class="p">:</span>
+        <span class="c1"># Writing metadata</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fname</span><span class="p">,</span> <span class="s1">&#39;r+b&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fp</span><span class="p">:</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">metadata_start</span><span class="p">)</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">metadata_sm</span><span class="o">.</span><span class="n">buf</span><span class="p">)</span>
+
+            <span class="c1"># We go at the end of the file</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">SEEK_END</span><span class="p">)</span>
+
+            <span class="c1"># Look at the current address</span>
+            <span class="n">allocation_table_location</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">tell</span><span class="p">()</span>
+            <span class="c1"># Retrieve all the allocations from the workers</span>
+            <span class="c1"># Turn them into a numpy array</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">allocation_table</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span>
+                    <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">ALLOC_TABLE_TYPE</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">allocations</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+                <span class="p">])</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="n">allocation_table</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">ALLOC_TABLE_TYPE</span><span class="p">)</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">allocation_table</span><span class="o">.</span><span class="n">tobytes</span><span class="p">())</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">header</span><span class="p">[</span><span class="s1">&#39;alloc_table_ptr&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">allocation_table_location</span>
+            <span class="c1"># We go at the start of the file</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+            <span class="c1"># And write the header</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">tobytes</span><span class="p">())</span></div></div>
+</pre></div>
+
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>    
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+    <script type="text/javascript" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+    <div class="footer" role="contentinfo">
+        <div class="container">
+            &#169; Copyright 2022, ffcv.
+        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0.
+        </div>
+    </div>  
+
+</body>
+</html>

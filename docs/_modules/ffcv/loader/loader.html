@@ -1,0 +1,554 @@
+
+
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>ffcv.loader.loader &mdash; FFCV  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../../_static/css/theme.min.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/custom.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/theme.min.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/style.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <a class="site-nav-toggle hidden-lg-up"><i class="icon-menu"></i></a>
+            <a class="site-title" href="../../../index.html">
+                FFCV
+            </a>
+        </div>
+    </header>
+
+
+<div class="breadcrumbs-outer hidden-xs-down">
+    <div class="container">
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a></li>
+        
+          <li><a href="../../index.html">Module code</a></li>
+        
+      <li>ffcv.loader.loader</li>
+    
+    
+      <li class="breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+</div>
+    </div>
+</div>
+    <div class="main-outer">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-lg-3 site-nav">
+                    
+<div role="search">
+    <form class="search" action="../../../search.html" method="get">
+        <div class="icon-input">
+            <input type="text" name="q" placeholder="Search" />
+            <span class="icon-search"></span>
+        </div>
+        <input type="submit" value="Go" class="d-hidden" />
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+                    <div class="site-nav-tree">
+                        
+                            
+                            
+                                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../basics.html">Getting started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../writing_datasets.html">Writing a dataset to FFCV format</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../making_dataloaders.html">Making an FFCV dataloader</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../performance_guide.html">Performance Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../working_with_images.html">Working with Image Data in FFCV</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../parameter_tuning.html">Tuning Guide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../bottleneck_doctor.html">The Bottleneck Doctor</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples.html">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../ffcv_examples/cifar10.html">Training CIFAR-10 in 36 seconds on a single A100</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../ffcv_examples/linear_regression.html">Large-Scale Linear Regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../ffcv_examples/custom_transforms.html">Fast custom image transforms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../ffcv_examples/transform_with_inds.html">Custom transforms with indices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../ffcv_examples/imagenet.html">ImageNet Fast Training</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../benchmarks.html">ImageNet Benchmarks</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../benchmarks.html#dataset-sizes">Dataset sizes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../benchmarks.html#data-loading">Data loading</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../benchmarks.html#end-to-end-training">End-to-end training</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_reference.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/writer.html">ffcv.writer module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/transforms.html">ffcv.transforms module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/loader.html">ffcv.loader module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/fields.html">ffcv.fields module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/decoders.html">ffcv.fields.decoders module</a></li>
+</ul>
+</li>
+</ul>
+
+                            
+                        
+                    </div>
+                </div>
+                <div class="col-12 col-lg-9">
+                    <div class="document">
+                        
+                            
+  <h1>Source code for ffcv.loader.loader</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">FFCV loader</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">enum</span>
+<span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">environ</span>
+<span class="kn">import</span> <span class="nn">ast</span>
+<span class="kn">from</span> <span class="nn">multiprocessing</span> <span class="kn">import</span> <span class="n">cpu_count</span>
+<span class="kn">from</span> <span class="nn">re</span> <span class="kn">import</span> <span class="n">sub</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Type</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Literal</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
+<span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span><span class="p">,</span> <span class="n">unique</span><span class="p">,</span> <span class="n">auto</span>
+<span class="kn">from</span> <span class="nn">ffcv.fields.base</span> <span class="kn">import</span> <span class="n">Field</span>
+
+<span class="kn">import</span> <span class="nn">torch</span> <span class="k">as</span> <span class="nn">ch</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">.epoch_iterator</span> <span class="kn">import</span> <span class="n">EpochIterator</span>
+<span class="kn">from</span> <span class="nn">..reader</span> <span class="kn">import</span> <span class="n">Reader</span>
+<span class="kn">from</span> <span class="nn">..traversal_order.base</span> <span class="kn">import</span> <span class="n">TraversalOrder</span>
+<span class="kn">from</span> <span class="nn">..traversal_order</span> <span class="kn">import</span> <span class="n">Random</span><span class="p">,</span> <span class="n">Sequential</span><span class="p">,</span> <span class="n">QuasiRandom</span>
+<span class="kn">from</span> <span class="nn">..pipeline</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="kn">from</span> <span class="nn">..pipeline.compiler</span> <span class="kn">import</span> <span class="n">Compiler</span>
+<span class="kn">from</span> <span class="nn">..pipeline.operation</span> <span class="kn">import</span> <span class="n">Operation</span>
+<span class="kn">from</span> <span class="nn">..transforms.ops</span> <span class="kn">import</span> <span class="n">ToTensor</span>
+<span class="kn">from</span> <span class="nn">..transforms.module</span> <span class="kn">import</span> <span class="n">ModuleWrapper</span>
+<span class="kn">from</span> <span class="nn">..memory_managers</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">ProcessCacheManager</span><span class="p">,</span> <span class="n">OSCacheManager</span><span class="p">,</span> <span class="n">MemoryManager</span>
+<span class="p">)</span>
+
+<div class="viewcode-block" id="OrderOption"><a class="viewcode-back" href="../../../api/loader.html#ffcv.loader.OrderOption">[docs]</a><span class="nd">@unique</span>
+<span class="k">class</span> <span class="nc">OrderOption</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="n">SEQUENTIAL</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
+    <span class="n">RANDOM</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
+    <span class="n">QUASI_RANDOM</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span></div>
+
+<span class="n">ORDER_TYPE</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span>
+    <span class="n">TraversalOrder</span><span class="p">,</span>
+    <span class="n">Literal</span><span class="p">[</span><span class="n">OrderOption</span><span class="o">.</span><span class="n">SEQUENTIAL</span><span class="p">,</span>
+            <span class="n">OrderOption</span><span class="o">.</span><span class="n">RANDOM</span><span class="p">]</span>
+
+<span class="p">]</span>
+
+<span class="n">ORDER_MAP</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="n">ORDER_TYPE</span><span class="p">,</span> <span class="n">TraversalOrder</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">OrderOption</span><span class="o">.</span><span class="n">RANDOM</span><span class="p">:</span> <span class="n">Random</span><span class="p">,</span>
+    <span class="n">OrderOption</span><span class="o">.</span><span class="n">SEQUENTIAL</span><span class="p">:</span> <span class="n">Sequential</span><span class="p">,</span>
+    <span class="n">OrderOption</span><span class="o">.</span><span class="n">QUASI_RANDOM</span><span class="p">:</span> <span class="n">QuasiRandom</span>
+<span class="p">}</span>
+
+<span class="n">DEFAULT_PROCESS_CACHE</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;FFCV_DEFAULT_CACHE_PROCESS&#39;</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">))</span>
+<span class="n">DEFAULT_OS_CACHE</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">DEFAULT_PROCESS_CACHE</span>
+
+<div class="viewcode-block" id="Loader"><a class="viewcode-back" href="../../../api/loader.html#ffcv.loader.Loader">[docs]</a><span class="k">class</span> <span class="nc">Loader</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;FFCV loader class that can be used as a drop-in replacement</span>
+<span class="sd">    for standard (e.g. PyTorch) data loaders.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    fname: str</span>
+<span class="sd">        Full path to the location of the dataset (.beton file format).</span>
+<span class="sd">    batch_size : int</span>
+<span class="sd">        Batch size.</span>
+<span class="sd">    num_workers : int</span>
+<span class="sd">        Number of workers used for data loading. Consider using the actual number of cores instead of the number of threads if you only use JITed augmentations as they usually don&#39;t benefit from hyper-threading.</span>
+<span class="sd">    os_cache : bool</span>
+<span class="sd">        Leverages the operating for caching purposes. This is beneficial when there is enough memory to cache the dataset and/or when multiple processes on the same machine training using the same dataset. See https://docs.ffcv.io/performance_guide.html for more information.</span>
+<span class="sd">    order : OrderOption</span>
+<span class="sd">        Traversal order, one of: SEQEUNTIAL, RANDOM, QUASI_RANDOM</span>
+
+<span class="sd">        QUASI_RANDOM is a random order that tries to be as uniform as possible while minimizing the amount of data read from the disk. Note that it is mostly useful when `os_cache=False`. Currently unavailable in distributed mode.</span>
+<span class="sd">    distributed : bool</span>
+<span class="sd">        For distributed training (multiple GPUs). Emulates the behavior of DistributedSampler from PyTorch.</span>
+<span class="sd">    seed : int</span>
+<span class="sd">        Random seed for batch ordering.</span>
+<span class="sd">    indices : Sequence[int]</span>
+<span class="sd">        Subset of dataset by filtering only some indices.</span>
+<span class="sd">    pipelines : Mapping[str, Sequence[Union[Operation, torch.nn.Module]]</span>
+<span class="sd">        Dictionary defining for each field the sequence of Decoders and transforms to apply.</span>
+<span class="sd">        Fileds with missing entries will use the default pipeline, which consists of the default decoder and `ToTensor()`,</span>
+<span class="sd">        but a field can also be disabled by explicitly by passing `None` as its pipeline.</span>
+<span class="sd">    custom_fields : Mapping[str, Field]</span>
+<span class="sd">        Dictonary informing the loader of the types associated to fields that are using a custom type.</span>
+<span class="sd">    drop_last : bool</span>
+<span class="sd">        Drop non-full batch in each iteration.</span>
+<span class="sd">    batches_ahead : int</span>
+<span class="sd">        Number of batches prepared in advance; balances latency and memory.</span>
+<span class="sd">    recompile : bool</span>
+<span class="sd">        Recompile every iteration. This is necessary if the implementation of some augmentations are expected to change during training.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">fname</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+                 <span class="n">batch_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+                 <span class="n">num_workers</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+                 <span class="n">os_cache</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">DEFAULT_OS_CACHE</span><span class="p">,</span>
+                 <span class="n">order</span><span class="p">:</span> <span class="n">ORDER_TYPE</span> <span class="o">=</span> <span class="n">OrderOption</span><span class="o">.</span><span class="n">SEQUENTIAL</span><span class="p">,</span>
+                 <span class="n">distributed</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                 <span class="n">seed</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>  <span class="c1"># For ordering of samples</span>
+                 <span class="n">indices</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>  <span class="c1"># For subset selection</span>
+                 <span class="n">pipelines</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span>
+                                    <span class="n">Sequence</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">Operation</span><span class="p">,</span> <span class="n">ch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">]]]</span> <span class="o">=</span> <span class="p">{},</span>
+                 <span class="n">custom_fields</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Type</span><span class="p">[</span><span class="n">Field</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{},</span>
+                 <span class="n">drop_last</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                 <span class="n">batches_ahead</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span>
+                 <span class="n">recompile</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>  <span class="c1"># Recompile at every epoch</span>
+                 <span class="p">):</span>
+
+        <span class="c1"># We store the original user arguments to be able to pass it to the</span>
+        <span class="c1"># filtered version of the datasets</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_args</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;fname&#39;</span><span class="p">:</span> <span class="n">fname</span><span class="p">,</span>
+            <span class="s1">&#39;batch_size&#39;</span><span class="p">:</span> <span class="n">batch_size</span><span class="p">,</span>
+            <span class="s1">&#39;num_workers&#39;</span><span class="p">:</span> <span class="n">num_workers</span><span class="p">,</span>
+            <span class="s1">&#39;os_cache&#39;</span><span class="p">:</span> <span class="n">os_cache</span><span class="p">,</span>
+            <span class="s1">&#39;order&#39;</span><span class="p">:</span> <span class="n">order</span><span class="p">,</span>
+            <span class="s1">&#39;distributed&#39;</span><span class="p">:</span> <span class="n">distributed</span><span class="p">,</span>
+            <span class="s1">&#39;seed&#39;</span><span class="p">:</span> <span class="n">seed</span><span class="p">,</span>
+            <span class="s1">&#39;indices&#39;</span><span class="p">:</span> <span class="n">indices</span><span class="p">,</span>
+            <span class="s1">&#39;pipelines&#39;</span><span class="p">:</span> <span class="n">pipelines</span><span class="p">,</span>
+            <span class="s1">&#39;drop_last&#39;</span><span class="p">:</span> <span class="n">drop_last</span><span class="p">,</span>
+            <span class="s1">&#39;batches_ahead&#39;</span><span class="p">:</span> <span class="n">batches_ahead</span><span class="p">,</span>
+            <span class="s1">&#39;recompile&#39;</span><span class="p">:</span> <span class="n">recompile</span>
+        <span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fname</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">fname</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">batch_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">batch_size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">batches_ahead</span> <span class="o">=</span> <span class="n">batches_ahead</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">seed</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">seed</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reader</span><span class="p">:</span> <span class="n">Reader</span> <span class="o">=</span> <span class="n">Reader</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fname</span><span class="p">,</span> <span class="n">custom_fields</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_workers</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">num_workers</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">drop_last</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">drop_last</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">distributed</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">distributed</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">code_per_stage</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">recompile</span> <span class="o">=</span> <span class="n">recompile</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_workers</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">num_workers</span> <span class="o">=</span> <span class="n">cpu_count</span><span class="p">()</span>
+
+        <span class="n">Compiler</span><span class="o">.</span><span class="n">set_num_threads</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_workers</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">indices</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reader</span><span class="o">.</span><span class="n">num_samples</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;uint64&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">indices</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">os_cache</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">memory_manager</span><span class="p">:</span> <span class="n">MemoryManager</span> <span class="o">=</span> <span class="n">OSCacheManager</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reader</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">memory_manager</span><span class="p">:</span> <span class="n">MemoryManager</span> <span class="o">=</span> <span class="n">ProcessCacheManager</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">reader</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">traversal_order</span><span class="p">:</span> <span class="n">TraversalOrder</span> <span class="o">=</span> <span class="n">ORDER_MAP</span><span class="p">[</span><span class="n">order</span><span class="p">](</span><span class="bp">self</span><span class="p">)</span>
+
+        <span class="n">memory_read</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">memory_manager</span><span class="o">.</span><span class="n">compile_reader</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">next_epoch</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">pipelines</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">field_name_to_f_ix</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="k">for</span> <span class="n">f_ix</span><span class="p">,</span> <span class="p">(</span><span class="n">field_name</span><span class="p">,</span> <span class="n">field</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reader</span><span class="o">.</span><span class="n">handlers</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">field_name_to_f_ix</span><span class="p">[</span><span class="n">field_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">f_ix</span>
+            <span class="n">DecoderClass</span> <span class="o">=</span> <span class="n">field</span><span class="o">.</span><span class="n">get_decoder_class</span><span class="p">()</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">operations</span> <span class="o">=</span> <span class="n">pipelines</span><span class="p">[</span><span class="n">field_name</span><span class="p">]</span>
+                <span class="c1"># We check if the user disabled this field</span>
+                <span class="k">if</span> <span class="n">operations</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">operations</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">DecoderClass</span><span class="p">):</span>
+                    <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;The first operation of the pipeline for &quot;</span>
+                    <span class="n">msg</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">field_name</span><span class="si">}</span><span class="s2">&#39; has to be a subclass of &quot;</span>
+                    <span class="n">msg</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">DecoderClass</span><span class="si">}</span><span class="s2">&quot;</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">operations</span> <span class="o">=</span> <span class="p">[</span>
+                        <span class="n">DecoderClass</span><span class="p">(),</span>
+                        <span class="n">ToTensor</span><span class="p">()</span>
+                    <span class="p">]</span>
+                <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+                    <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Impossible to create a default pipeline&quot;</span>
+                    <span class="n">msg</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">field_name</span><span class="si">}</span><span class="s2">, please define one manually&quot;</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">op</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">operations</span><span class="p">):</span>
+                <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">op</span><span class="p">,</span> <span class="p">(</span><span class="n">ch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span> <span class="n">Operation</span><span class="p">)),</span> <span class="n">op</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">op</span><span class="p">,</span> <span class="n">ch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+                    <span class="n">operations</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">ModuleWrapper</span><span class="p">(</span><span class="n">op</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">op</span> <span class="ow">in</span> <span class="n">operations</span><span class="p">:</span>
+                <span class="n">op</span><span class="o">.</span><span class="n">accept_field</span><span class="p">(</span><span class="n">field</span><span class="p">)</span>
+                <span class="n">op</span><span class="o">.</span><span class="n">accept_globals</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reader</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;f</span><span class="si">{</span><span class="n">f_ix</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">],</span>
+                                  <span class="n">memory_read</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">pipelines</span><span class="p">[</span><span class="n">field_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">operations</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Loader.next_traversal_order"><a class="viewcode-back" href="../../../api/loader.html#ffcv.loader.Loader.next_traversal_order">[docs]</a>    <span class="k">def</span> <span class="nf">next_traversal_order</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">traversal_order</span><span class="o">.</span><span class="n">sample_order</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">next_epoch</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">Compiler</span><span class="o">.</span><span class="n">set_num_threads</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_workers</span><span class="p">)</span>
+        <span class="n">order</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">next_traversal_order</span><span class="p">()</span>
+        <span class="n">selected_order</span> <span class="o">=</span> <span class="n">order</span><span class="p">[:</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">batch_size</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">next_epoch</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="c1"># Compile at the first epoch</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">code_per_stage</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">recompile</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">generate_code</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">EpochIterator</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">selected_order</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Loader.filter"><a class="viewcode-back" href="../../../api/loader.html#ffcv.loader.Loader.filter">[docs]</a>    <span class="k">def</span> <span class="nf">filter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field_name</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">condition</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Any</span><span class="p">],</span> <span class="nb">bool</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s1">&#39;Loader&#39;</span><span class="p">:</span>
+        <span class="n">new_args</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">_args</span><span class="p">}</span>
+        <span class="n">pipelines</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="c1"># Disabling all the other fields</span>
+        <span class="k">for</span> <span class="n">other_field_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">reader</span><span class="o">.</span><span class="n">handlers</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">pipelines</span><span class="p">[</span><span class="n">other_field_name</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="c1"># We reuse the original pipeline for the field we care about</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">pipelines</span><span class="p">[</span><span class="n">field_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_args</span><span class="p">[</span><span class="s1">&#39;pipelines&#39;</span><span class="p">][</span><span class="n">field_name</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="c1"># We keep the default one if the user didn&#39;t setup a custom one</span>
+            <span class="k">del</span> <span class="n">pipelines</span><span class="p">[</span><span class="n">field_name</span><span class="p">]</span>
+            <span class="k">pass</span>
+
+        <span class="n">new_args</span><span class="p">[</span><span class="s1">&#39;pipelines&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pipelines</span>
+
+        <span class="c1"># We use sequential order for speed and to know which index we are</span>
+        <span class="c1"># filtering</span>
+        <span class="n">new_args</span><span class="p">[</span><span class="s1">&#39;order&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">OrderOption</span><span class="o">.</span><span class="n">SEQUENTIAL</span>
+        <span class="n">new_args</span><span class="p">[</span><span class="s1">&#39;drop_last&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">sub_loader</span> <span class="o">=</span> <span class="n">Loader</span><span class="p">(</span><span class="o">**</span><span class="n">new_args</span><span class="p">)</span>
+        <span class="n">selected_indices</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1"># Iterate through the loader and test the user defined condition</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">batch</span><span class="p">,)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">sub_loader</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">sample</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">batch</span><span class="p">):</span>
+                <span class="n">sample_id</span> <span class="o">=</span> <span class="n">i</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">batch_size</span> <span class="o">+</span> <span class="n">j</span>
+                <span class="k">if</span> <span class="n">condition</span><span class="p">(</span><span class="n">sample</span><span class="p">):</span>
+                    <span class="n">selected_indices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sample_id</span><span class="p">)</span>
+
+        <span class="n">final_args</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">_args</span><span class="p">}</span>
+        <span class="n">final_args</span><span class="p">[</span><span class="s1">&#39;indices&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">selected_indices</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Loader</span><span class="p">(</span><span class="o">**</span><span class="n">final_args</span><span class="p">)</span></div>
+
+
+    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">next_order</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">next_traversal_order</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">drop_last</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">next_order</span><span class="p">)</span> <span class="o">//</span> <span class="bp">self</span><span class="o">.</span><span class="n">batch_size</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">next_order</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">batch_size</span><span class="p">))</span>
+
+<div class="viewcode-block" id="Loader.generate_function_call"><a class="viewcode-back" href="../../../api/loader.html#ffcv.loader.Loader.generate_function_call">[docs]</a>    <span class="k">def</span> <span class="nf">generate_function_call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pipeline_name</span><span class="p">,</span> <span class="n">op_id</span><span class="p">,</span> <span class="n">needs_indices</span><span class="p">):</span>
+        <span class="n">p_ix</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">field_name_to_f_ix</span><span class="p">[</span><span class="n">pipeline_name</span><span class="p">]</span>
+        <span class="n">pipeline_identifier</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;code_</span><span class="si">{</span><span class="n">pipeline_name</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="n">op_id</span><span class="si">}</span><span class="s1">&#39;</span>
+        <span class="n">memory_identifier</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;memory_</span><span class="si">{</span><span class="n">pipeline_name</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="n">op_id</span><span class="si">}</span><span class="s1">&#39;</span>
+        <span class="n">result_identifier</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;result_</span><span class="si">{</span><span class="n">pipeline_name</span><span class="si">}</span><span class="s1">&#39;</span>
+
+        <span class="n">arg_id</span> <span class="o">=</span> <span class="n">result_identifier</span>
+        <span class="c1"># This is the decoder so we pass the indices instead of the previous</span>
+        <span class="c1"># result</span>
+        <span class="k">if</span> <span class="n">op_id</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">arg_id</span> <span class="o">=</span> <span class="s1">&#39;batch_indices&#39;</span>
+
+        <span class="n">tree</span> <span class="o">=</span> <span class="n">ast</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="si">{</span><span class="n">result_identifier</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">pipeline_identifier</span><span class="si">}</span><span class="s2">(</span><span class="si">{</span><span class="n">arg_id</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">memory_identifier</span><span class="si">}</span><span class="s2">)</span>
+<span class="s2">        &quot;&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="c1"># This is the first call of the pipeline, we pass the metadata and</span>
+        <span class="c1"># storage state</span>
+        <span class="k">if</span> <span class="n">op_id</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">tree</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span>
+                <span class="n">ast</span><span class="o">.</span><span class="n">Subscript</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">ast</span><span class="o">.</span><span class="n">Name</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s1">&#39;metadata&#39;</span><span class="p">,</span> <span class="n">ctx</span><span class="o">=</span><span class="n">ast</span><span class="o">.</span><span class="n">Load</span><span class="p">()),</span>
+                              <span class="nb">slice</span><span class="o">=</span><span class="n">ast</span><span class="o">.</span><span class="n">Index</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">ast</span><span class="o">.</span><span class="n">Constant</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;f</span><span class="si">{</span><span class="n">p_ix</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="kc">None</span><span class="p">)),</span> <span class="n">ctx</span><span class="o">=</span><span class="n">ast</span><span class="o">.</span><span class="n">Load</span><span class="p">()),</span>
+                <span class="n">ast</span><span class="o">.</span><span class="n">Name</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s1">&#39;storage_state&#39;</span><span class="p">,</span> <span class="n">ctx</span><span class="o">=</span><span class="n">ast</span><span class="o">.</span><span class="n">Load</span><span class="p">()),</span>
+            <span class="p">])</span>
+        <span class="k">if</span> <span class="n">needs_indices</span><span class="p">:</span>
+            <span class="n">tree</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span>
+                <span class="n">ast</span><span class="o">.</span><span class="n">Name</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s1">&#39;batch_indices&#39;</span><span class="p">,</span> <span class="n">ctx</span><span class="o">=</span><span class="n">ast</span><span class="o">.</span><span class="n">Load</span><span class="p">()),</span>
+            <span class="p">])</span>
+        <span class="k">return</span> <span class="n">tree</span></div>
+
+<div class="viewcode-block" id="Loader.generate_stage_code"><a class="viewcode-back" href="../../../api/loader.html#ffcv.loader.Loader.generate_stage_code">[docs]</a>    <span class="k">def</span> <span class="nf">generate_stage_code</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stage</span><span class="p">,</span> <span class="n">stage_ix</span><span class="p">,</span> <span class="n">functions</span><span class="p">):</span>
+        <span class="n">fun_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;stage_</span><span class="si">{</span><span class="n">stage_ix</span><span class="si">}</span><span class="s1">&#39;</span>
+        <span class="n">base_code</span> <span class="o">=</span> <span class="n">ast</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">def </span><span class="si">{</span><span class="n">fun_name</span><span class="si">}</span><span class="s2">():</span>
+<span class="s2">    pass</span>
+<span class="s2">        &quot;&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="n">function_calls</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">memory_banks</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">memory_banks_id</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">p_ix</span><span class="p">,</span> <span class="n">pipeline_name</span><span class="p">,</span> <span class="n">op_id</span><span class="p">,</span> <span class="n">needs_indices</span> <span class="ow">in</span> <span class="n">stage</span><span class="p">:</span>
+            <span class="n">function_calls</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">generate_function_call</span><span class="p">(</span><span class="n">pipeline_name</span><span class="p">,</span>
+                                                              <span class="n">op_id</span><span class="p">,</span> <span class="n">needs_indices</span><span class="p">))</span>
+            <span class="n">arg</span> <span class="o">=</span> <span class="n">ast</span><span class="o">.</span><span class="n">arg</span><span class="p">(</span><span class="n">arg</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;memory_</span><span class="si">{</span><span class="n">pipeline_name</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="n">op_id</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="n">memory_banks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span>
+            <span class="n">memory_banks_id</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">pipeline_name</span><span class="p">,</span> <span class="n">op_id</span><span class="p">))</span>
+
+        <span class="n">base_code</span><span class="o">.</span><span class="n">body</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+        <span class="n">base_code</span><span class="o">.</span><span class="n">body</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">function_calls</span><span class="p">)</span>
+
+        <span class="n">return_tuple</span> <span class="o">=</span> <span class="n">ast</span><span class="o">.</span><span class="n">Return</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">ast</span><span class="o">.</span><span class="n">Tuple</span><span class="p">(</span><span class="n">elts</span><span class="o">=</span><span class="p">[],</span> <span class="n">ctx</span><span class="o">=</span><span class="n">ast</span><span class="o">.</span><span class="n">Load</span><span class="p">()))</span>
+
+        <span class="n">base_code</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ast</span><span class="o">.</span><span class="n">arg</span><span class="p">(</span><span class="n">arg</span><span class="o">=</span><span class="s1">&#39;batch_indices&#39;</span><span class="p">))</span>
+
+        <span class="k">for</span> <span class="n">p_id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pipelines</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">r</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;result_</span><span class="si">{</span><span class="n">p_id</span><span class="si">}</span><span class="s1">&#39;</span>
+            <span class="k">if</span> <span class="n">stage_ix</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">base_code</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ast</span><span class="o">.</span><span class="n">arg</span><span class="p">(</span><span class="n">arg</span><span class="o">=</span><span class="n">r</span><span class="p">))</span>
+            <span class="n">return_tuple</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">elts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ast</span><span class="o">.</span><span class="n">Name</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">r</span><span class="p">,</span> <span class="n">ctx</span><span class="o">=</span><span class="n">ast</span><span class="o">.</span><span class="n">Load</span><span class="p">()))</span>
+
+
+        <span class="n">base_code</span><span class="o">.</span><span class="n">body</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">return_tuple</span><span class="p">)</span>
+        <span class="n">base_code</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">memory_banks</span><span class="p">)</span>
+        <span class="n">base_code</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ast</span><span class="o">.</span><span class="n">arg</span><span class="p">(</span><span class="n">arg</span><span class="o">=</span><span class="s1">&#39;metadata&#39;</span><span class="p">))</span>
+        <span class="n">base_code</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ast</span><span class="o">.</span><span class="n">arg</span><span class="p">(</span><span class="n">arg</span><span class="o">=</span><span class="s1">&#39;storage_state&#39;</span><span class="p">))</span>
+
+        <span class="n">module</span> <span class="o">=</span> <span class="n">ast</span><span class="o">.</span><span class="n">fix_missing_locations</span><span class="p">(</span>
+            <span class="n">ast</span><span class="o">.</span><span class="n">Module</span><span class="p">(</span><span class="n">body</span><span class="o">=</span><span class="p">[</span><span class="n">base_code</span><span class="p">],</span>
+                       <span class="n">type_ignores</span><span class="o">=</span><span class="p">[])</span>
+        <span class="p">)</span>
+        <span class="n">namespace</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="o">**</span><span class="n">functions</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="n">exec</span><span class="p">(</span><span class="nb">compile</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;exec&#39;</span><span class="p">),</span> <span class="n">namespace</span><span class="p">)</span>
+        <span class="n">final_code</span> <span class="o">=</span> <span class="n">namespace</span><span class="p">[</span><span class="n">fun_name</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">stage_ix</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">final_code</span> <span class="o">=</span> <span class="n">Compiler</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">final_code</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">final_code</span><span class="p">,</span> <span class="n">memory_banks_id</span></div>
+
+<div class="viewcode-block" id="Loader.generate_code"><a class="viewcode-back" href="../../../api/loader.html#ffcv.loader.Loader.generate_code">[docs]</a>    <span class="k">def</span> <span class="nf">generate_code</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">schedule</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="p">[])</span>
+        <span class="n">compiled_functions</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">p_ix</span><span class="p">,</span> <span class="p">(</span><span class="n">p_id</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pipelines</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+            <span class="n">stage</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">for</span> <span class="n">jitted_block</span><span class="p">,</span> <span class="n">block_content</span> <span class="ow">in</span> <span class="n">p</span><span class="o">.</span><span class="n">operation_blocks</span><span class="p">:</span>
+                <span class="c1"># Even stages are jitted Odds are not</span>
+                <span class="c1"># If this doesn&#39;t match for this pipeline we</span>
+                <span class="c1"># shift the operations</span>
+                <span class="k">if</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">jitted_block</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">!=</span> <span class="n">stage</span> <span class="o">%</span> <span class="mi">2</span><span class="p">:</span>
+                    <span class="n">stage</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="k">for</span> <span class="n">op</span> <span class="ow">in</span> <span class="n">block_content</span><span class="p">:</span>
+                    <span class="n">ops_code</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">compiled_ops</span><span class="p">[</span><span class="n">op</span><span class="p">]</span>
+
+                    <span class="n">needs_indices</span> <span class="o">=</span> <span class="kc">False</span>
+                    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">ops_code</span><span class="p">,</span> <span class="s1">&#39;with_indices&#39;</span><span class="p">):</span>
+                        <span class="n">needs_indices</span> <span class="o">=</span> <span class="n">ops_code</span><span class="o">.</span><span class="n">with_indices</span>
+
+                    <span class="k">if</span> <span class="n">stage</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="n">ops_code</span> <span class="o">=</span> <span class="n">Compiler</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">ops_code</span><span class="p">)</span>
+                    <span class="n">compiled_functions</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;code_</span><span class="si">{</span><span class="n">p_id</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="n">op</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ops_code</span>
+                    <span class="n">schedule</span><span class="p">[</span><span class="n">stage</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">p_ix</span><span class="p">,</span> <span class="n">p_id</span><span class="p">,</span> <span class="n">op</span><span class="p">,</span> <span class="n">needs_indices</span><span class="p">))</span>
+                <span class="n">stage</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="n">memory_bank_keys_per_stage</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">code_per_stage</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">stage_ix</span><span class="p">,</span> <span class="n">stage</span> <span class="ow">in</span> <span class="n">schedule</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">code_for_stage</span><span class="p">,</span> <span class="n">mem_banks_ids</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_stage_code</span><span class="p">(</span><span class="n">stage</span><span class="p">,</span> <span class="n">stage_ix</span><span class="p">,</span>
+                                                                     <span class="n">compiled_functions</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">code_per_stage</span><span class="p">[</span><span class="n">stage_ix</span><span class="p">]</span> <span class="o">=</span> <span class="n">code_for_stage</span>
+            <span class="n">memory_bank_keys_per_stage</span><span class="p">[</span><span class="n">stage_ix</span><span class="p">]</span> <span class="o">=</span> <span class="n">mem_banks_ids</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">memory_bank_keys_per_stage</span> <span class="o">=</span> <span class="n">memory_bank_keys_per_stage</span></div></div>
+</pre></div>
+
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>    
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+    <script type="text/javascript" src="../../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+    <div class="footer" role="contentinfo">
+        <div class="container">
+            &#169; Copyright 2022, ffcv.
+        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0.
+        </div>
+    </div>  
+
+</body>
+</html>
